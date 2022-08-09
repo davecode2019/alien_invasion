@@ -52,7 +52,7 @@ def fire_bullet(ai_settings, screen, ship, bullets):
 def get_number_aliens_x(ai_settings, alien_width):
     """Determine the number of aliens that fit in a row."""
     available_space_x = ai_settings.screen_width - (2 * alien_width)
-    number_aliens_x = int(available_space_x / (2 * alien_width))
+    number_aliens_x = int(available_space_x / (2 * alien_width) - 1)
     return number_aliens_x
 
 def get_number_aliens_y(ai_settings, ship_height, alien_height,):
@@ -66,8 +66,11 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
     alien_height = alien.rect.height
-    alien.x = alien_width + 2 * alien_width * alien_number
-    alien.rect.y = alien_height + 2 * alien_height * row_number
+    if row_number % 2 == 0:
+        alien.x = alien_width + 2 * alien_width * alien_number
+    else:
+        alien.x = alien_width + 2 * alien_width * (alien_number + 0.5)
+    alien.rect.y = alien_height + 1.5 * alien_height * row_number
     alien.rect.x = alien.x
     aliens.add(alien)
 
